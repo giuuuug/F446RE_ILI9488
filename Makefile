@@ -67,10 +67,10 @@ Core/Src/sysmem.c \
 Core/Src/syscalls.c \
 Lib/LVGL9/log/log.c \
 Drivers/SC24_ILI9488_DRIVER/Src/ili9488.c \
-EEZ/ui/ui.c \
-EEZ/ui/images.c \
-EEZ/ui/styles.c \
-EEZ/ui/screens.c   
+EEZ/src/ui/ui.c \
+EEZ/src/ui/images.c \
+EEZ/src/ui/styles.c \
+EEZ/src/ui/screens.c   
 
 # ASM sources
 ASM_SOURCES =  \
@@ -138,7 +138,7 @@ C_INCLUDES =  \
 -ILib/LVGL9/lvgl \
 -ILib/LVGL9/log \
 -IDrivers/SC24_ILI9488_DRIVER/Inc \
--IEEZ/ui \
+-IEEZ/src/ui \
 -IEEZ
 
 
