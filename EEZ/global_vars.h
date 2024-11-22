@@ -47,7 +47,7 @@
 
 /* ---------- Private Macros -------------------------------------------------*/
 
-float get_var_shared_lv_bat_voltage();
-void set_var_shared_lv_bat_voltage(float value) ;
+int32_t get_var_global_lv_bat_voltage();
+void set_var_global_lv_bat_voltage(int32_t value);
 
 #endif

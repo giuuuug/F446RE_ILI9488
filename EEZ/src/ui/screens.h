@@ -1,7 +1,7 @@
 #ifndef EEZ_LVGL_UI_SCREENS_H
 #define EEZ_LVGL_UI_SCREENS_H
 
-#include <lvgl/lvgl.h>
+#include <lvgl.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -91,6 +91,7 @@ enum ScreensEnum {
     SCREEN_ID_TIRES = 2,
     SCREEN_ID_INVERTERS = 3,
     SCREEN_ID_EXTRA = 4,
+    SCREEN_ID_COMMON_WIDGET = 5,
 };
 
 void create_screen_main();
@@ -104,6 +105,9 @@ void tick_screen_inverters();
 
 void create_screen_extra();
 void tick_screen_extra();
+
+void create_user_widget_common_widget(lv_obj_t *parent_obj, int startWidgetIndex);
+void tick_user_widget_common_widget(int startWidgetIndex);
 
 void create_screens();
 void tick_screen(int screen_index);

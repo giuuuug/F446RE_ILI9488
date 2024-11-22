@@ -24,7 +24,7 @@
 
 
 /*---------- Private variables -----------------------------------------------*/
-float shared_lv_bat_voltage;
+// float shared_lv_bat_voltage;
 
 
 
@@ -39,11 +39,13 @@ float shared_lv_bat_voltage;
 
 /*---------- Private Functions -----------------------------------------------*/
 
-float get_var_shared_lv_bat_voltage() {
-    return shared_lv_bat_voltage;
+
+int32_t global_lv_bat_voltage;
+
+int32_t get_var_global_lv_bat_voltage() {
+    return global_lv_bat_voltage;
 }
 
-void set_var_shared_lv_bat_voltage(float value) {
-    shared_lv_bat_voltage = value;
+void set_var_global_lv_bat_voltage(int32_t value) {
+    global_lv_bat_voltage = value;
 }
-

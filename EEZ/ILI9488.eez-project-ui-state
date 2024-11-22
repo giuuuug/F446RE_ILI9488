@@ -1,6 +1,7 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[C:\\Users\\matte\\OneDrive\\Desktop\\EEZ_senza_arc_senza_flow.eez-project]:/userPages/0",
+    "selectedUserPageObject": "[ILI9488.eez-project]:/userPages/0",
+    "selectedStyleObject": "[ILI9488.eez-project]:/lvglStyles/styles/0",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
     }
@@ -23,6 +24,7 @@
           },
           {
             "type": "border",
+            "selected": 0,
             "size": 240,
             "location": "right",
             "children": [
@@ -191,11 +193,21 @@
               "type": "tabset",
               "id": "EDITORS",
               "weight": 31.430311907516028,
-              "selected": -1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
-              "children": [],
-              "active": true
+              "children": [
+                {
+                  "type": "tab",
+                  "id": "#c41882d2-becf-48a5-8ba0-ae8426dbe98e",
+                  "name": "Main",
+                  "component": "editor",
+                  "config": {
+                    "objectPath": "[ILI9488.eez-project]:/userPages/0",
+                    "permanent": false
+                  },
+                  "icon": "svg:page"
+                }
+              ]
             },
             {
               "type": "row",
@@ -216,7 +228,8 @@
                       "enableClose": false,
                       "icon": "svg:properties"
                     }
-                  ]
+                  ],
+                  "active": true
                 },
                 {
                   "type": "tabset",
@@ -1207,7 +1220,8 @@
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
-    "MISCELLANEOUS"
+    "MISCELLANEOUS",
+    "TEXT"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,

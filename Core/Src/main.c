@@ -171,12 +171,10 @@ int main(void)
 #endif /*LV_USE_LOG*/
 
   // ui_init();
-  set_var_shared_lv_bat_voltage(14);
   custom_ui_init();
 
   monitor_memory();
 
-  set_var_shared_lv_bat_voltage('a');
   int i = 0;
   GPIO_PinState last_state = GPIO_PIN_SET;
   GPIO_PinState current_state = GPIO_PIN_SET;
@@ -186,6 +184,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+
     current_state = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
 
     if (last_state == GPIO_PIN_SET && current_state == GPIO_PIN_RESET)
@@ -193,7 +192,7 @@ int main(void)
       lv_obj_t *scr_act = lv_scr_act();
       if (scr_act != NULL)
       {
-        lv_obj_clean(lv_scr_act());
+        lv_obj_del(lv_scr_act());
       }
 
       switch ((i++) % 4)
@@ -201,19 +200,22 @@ int main(void)
       case 0:
         create_screen_main();
         lv_scr_load(objects.main);
+        lv_label_set_text(objects.lv_bat_voltage_s1, "32.5");
         break;
       case 1:
         create_screen_tires();
         lv_scr_load(objects.tires);
-
+        lv_label_set_text(objects.lv_bat_voltage_s2, "32.5");
         break;
       case 2:
         create_screen_inverters();
         lv_scr_load(objects.inverters);
+        lv_label_set_text(objects.lv_bat_voltage_s3, "32.5");
         break;
       case 3:
         create_screen_extra();
         lv_scr_load(objects.extra);
+        lv_label_set_text(objects.lv_bat_voltage_s4, "32.5");
         break;
       }
 
