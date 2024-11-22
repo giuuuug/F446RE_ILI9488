@@ -69,7 +69,7 @@
 
 #if LV_USE_STDLIB_MALLOC == LV_STDLIB_BUILTIN
     /** Size of memory available for `lv_malloc()` in bytes (>= 2kB) */
-    #define LV_MEM_SIZE (75 * 1024U)          /**< [bytes] */
+    #define LV_MEM_SIZE (20 * 1024U)          /**< [bytes] */
 
     /** Size of the memory expand for `lv_malloc()` in bytes */
     #define LV_MEM_POOL_EXPAND_SIZE 0
@@ -323,7 +323,7 @@
  *-----------*/
 
 /** Enable log module */
-#define LV_USE_LOG 1
+#define LV_USE_LOG 0
 #if LV_USE_LOG
     /** Set value to one of the following levels of logging detail:
      *  - LV_LOG_LEVEL_TRACE    Log detailed information.
@@ -654,7 +654,7 @@
 
 #define LV_USE_ANIMIMG    0
 
-#define LV_USE_ARC        1
+#define LV_USE_ARC        0
 
 #define LV_USE_BAR        0
 

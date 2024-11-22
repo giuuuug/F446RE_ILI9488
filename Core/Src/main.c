@@ -29,6 +29,8 @@
 #include "lvgl.h"
 #include "log.h"
 #include "ui.h"
+#include "screen_loader.h"
+#include "global_vars.h"
 #include "colors.h"
 /* USER CODE END Includes */
 
@@ -64,7 +66,7 @@ void SystemClock_Config(void);
 void my_flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
 {
   set_draw_window(area->x1, area->y1, area->x2, area->y2);
-  uint16_t *buf16 = (uint16_t *)px_map; 
+  uint16_t *buf16 = (uint16_t *)px_map;
 
   uint32_t width = area->x2 - area->x1 + 1;
   uint32_t height = area->y2 - area->y1 + 1;
@@ -93,12 +95,35 @@ void my_flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
   HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
   HAL_SPI_Transmit_DMA(&hspi2, v_buffer, pixel_count * 3);
 
-  while (HAL_SPI_GetState(&hspi2) != HAL_SPI_STATE_READY);
+  while (HAL_SPI_GetState(&hspi2) != HAL_SPI_STATE_READY)
+    ;
 
   HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
   lv_display_flush_ready(display);
 }
 
+void monitor_memory()
+{
+  lv_mem_monitor_t mem_monitor;
+  lv_mem_monitor(&mem_monitor); // Ottieni i dati sulla memoria
+
+  // Buffer per contenere il messaggio
+  char buffer[128];
+
+  // Formatta i dati di memoria
+  snprintf(buffer, sizeof(buffer),
+           "Memory total: %d bytes\r\n"
+           "Memory free: %d bytes\r\n"
+           "Memory used: %d bytes\r\n"
+           "Memory fragmentation: %d%%\r\n",
+           mem_monitor.total_size,
+           mem_monitor.free_size,
+           mem_monitor.total_size - mem_monitor.free_size,
+           mem_monitor.frag_pct);
+
+  // Trasmetti il messaggio su UART
+  HAL_UART_Transmit(&huart2, (uint8_t *)buffer, strlen(buffer), HAL_MAX_DELAY);
+}
 /* USER CODE END 0 */
 
 /**
@@ -145,10 +170,16 @@ int main(void)
   lv_log_register_print_cb(lvgl_log_callback);
 #endif /*LV_USE_LOG*/
 
-  ui_init();
-  int i = 1;
-  GPIO_PinState last_state = GPIO_PIN_SET;  
-  GPIO_PinState current_state = GPIO_PIN_SET; 
+  // ui_init();
+  set_var_shared_lv_bat_voltage(14);
+  custom_ui_init();
+
+  monitor_memory();
+
+  set_var_shared_lv_bat_voltage('a');
+  int i = 0;
+  GPIO_PinState last_state = GPIO_PIN_SET;
+  GPIO_PinState current_state = GPIO_PIN_SET;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -157,24 +188,36 @@ int main(void)
   {
     current_state = HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin);
 
-    if (last_state == GPIO_PIN_SET && current_state == GPIO_PIN_RESET) {
-        // Pulsante premuto (B13 passato da alto a basso)
-        // Cambia schermata
-        switch ((i++) % 4)
-        {
-        case 0:
-            lv_scr_load(objects.main);
-            break;
-        case 1:
-            lv_scr_load(objects.inverters);
-            break;
-        case 2:
-            lv_scr_load(objects.tires);
-            break;
-        case 3:
-            lv_scr_load(objects.extra);
-            break;
-        }
+    if (last_state == GPIO_PIN_SET && current_state == GPIO_PIN_RESET)
+    {
+      lv_obj_t *scr_act = lv_scr_act();
+      if (scr_act != NULL)
+      {
+        lv_obj_clean(lv_scr_act());
+      }
+
+      switch ((i++) % 4)
+      {
+      case 0:
+        create_screen_main();
+        lv_scr_load(objects.main);
+        break;
+      case 1:
+        create_screen_tires();
+        lv_scr_load(objects.tires);
+
+        break;
+      case 2:
+        create_screen_inverters();
+        lv_scr_load(objects.inverters);
+        break;
+      case 3:
+        create_screen_extra();
+        lv_scr_load(objects.extra);
+        break;
+      }
+
+      monitor_memory();
     }
 
     // Aggiorna lo stato precedente

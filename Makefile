@@ -67,6 +67,8 @@ Core/Src/sysmem.c \
 Core/Src/syscalls.c \
 Lib/LVGL9/log/log.c \
 Drivers/SC24_ILI9488_DRIVER/Src/ili9488.c \
+EEZ/screen_loader.c \
+EEZ/global_vars.c \
 EEZ/src/ui/ui.c \
 EEZ/src/ui/images.c \
 EEZ/src/ui/styles.c \

@@ -62,10 +62,8 @@ void lvgl_log_callback(lv_log_level_t level, const char * buf)
     }
 
 
-    // Costruisce il messaggio con il titolo e il contenuto
     snprintf(log_msg, sizeof(log_msg), "%s%s\r\n", level_str, buf);
 
-    // Invia il messaggio tramite la funzione serial_send
     HAL_UART_Transmit(&huart2, (uint8_t*)log_msg, strlen(log_msg), HAL_MAX_DELAY);
 }
 

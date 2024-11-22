@@ -1,7 +1,6 @@
 {
   "navigation": {
-    "selectedUserPageObject": "[ILI9488.eez-project]:/userPages/2",
-    "selectedStyleObject": "[ILI9488.eez-project]:/lvglStyles/styles/0",
+    "selectedUserPageObject": "[C:\\Users\\matte\\OneDrive\\Desktop\\EEZ_senza_arc_senza_flow.eez-project]:/userPages/0",
     "subnavigationSelectedItems": {
       "variables-tab/sub-navigation/selected-item": "Global"
     }
@@ -119,8 +118,8 @@
             {
               "type": "row",
               "id": "#63914e5a-c848-4a6f-877b-075579237bde",
-              "weight": 0,
-              "width": 350,
+              "weight": 41.968911917098445,
+              "width": 243,
               "children": [
                 {
                   "type": "tabset",
@@ -191,28 +190,18 @@
             {
               "type": "tabset",
               "id": "EDITORS",
+              "weight": 31.430311907516028,
+              "selected": -1,
               "enableDeleteWhenEmpty": false,
               "enableClose": false,
-              "children": [
-                {
-                  "type": "tab",
-                  "id": "#7cd097a5-444a-45ec-96fe-a447b9ad071e",
-                  "name": "Inverters",
-                  "component": "editor",
-                  "config": {
-                    "objectPath": "[ILI9488.eez-project]:/userPages/2",
-                    "permanent": false
-                  },
-                  "icon": "svg:page"
-                }
-              ],
+              "children": [],
               "active": true
             },
             {
               "type": "row",
               "id": "#1fdebd68-1bf4-46a3-977b-2af8c306a7e9",
-              "weight": 0,
-              "width": 420,
+              "weight": 26.60077617538552,
+              "width": 347,
               "children": [
                 {
                   "type": "tabset",
@@ -979,16 +968,23 @@
     "[ILI9488.eez-project]:/userPages/0[flow-state]": {
       "selection": {
         "0": {
-          "0": {},
+          "0": {
+            "0": {}
+          },
           "1": {},
           "2": {},
-          "3": {},
+          "3": {
+            "2": {}
+          },
           "4": {},
           "5": {
             "$selected": true
           },
           "6": {},
-          "7": {}
+          "7": {
+            "0": {},
+            "$selected": true
+          }
         }
       },
       "transform": {
@@ -996,7 +992,7 @@
           "x": -240,
           "y": -160
         },
-        "scale": 1.1
+        "scale": 1
       },
       "timeline": {
         "isEditorActive": false,
@@ -1008,73 +1004,35 @@
     "[ILI9488.eez-project]:/lvglStyles/styles[tree-state]": {
       "0": {
         "$selected": true
+      },
+      "1": {
+        "$selected": true
       }
     },
     "[ILI9488.eez-project]:/userPages/1[flow-state]": {
       "selection": {
         "0": {
-          "0": {
-            "$selected": true
-          },
-          "1": {
-            "$selected": true
-          },
-          "2": {
-            "$selected": true
-          },
-          "3": {
-            "$selected": true
-          },
+          "0": {},
+          "3": {},
           "4": {
-            "$selected": true
+            "4": {}
           },
-          "5": {
-            "$selected": true
-          },
-          "6": {
-            "$selected": true
-          },
-          "7": {
-            "$selected": true
-          },
+          "5": {},
+          "6": {},
+          "7": {},
           "8": {
-            "$selected": true
-          },
-          "9": {
-            "$selected": true
-          },
-          "10": {
-            "$selected": true
-          },
-          "11": {
-            "$selected": true
-          },
-          "12": {
-            "$selected": true
-          },
-          "13": {
-            "$selected": true
-          },
-          "14": {
-            "$selected": true
-          },
-          "15": {
-            "$selected": true
-          },
-          "16": {
-            "$selected": true
-          },
-          "17": {
-            "$selected": true
+            "0": {
+              "$selected": true
+            }
           }
         }
       },
       "transform": {
         "translate": {
-          "x": -85.29714285714283,
-          "y": -67.05380952380949
+          "x": -240,
+          "y": -160
         },
-        "scale": 1.1
+        "scale": 1
       },
       "timeline": {
         "isEditorActive": false,
@@ -1103,32 +1061,18 @@
       "selection": {
         "0": {
           "0": {
-            "$selected": true
+            "0": {
+              "$selected": true
+            }
           },
-          "1": {
-            "$selected": true
-          },
-          "2": {
-            "$selected": true
-          },
-          "3": {
-            "$selected": true
-          },
-          "4": {
-            "$selected": true
-          },
-          "5": {
-            "$selected": true
-          },
-          "6": {
-            "$selected": true
-          },
-          "7": {
-            "$selected": true
-          },
-          "8": {
-            "$selected": true
-          }
+          "1": {},
+          "2": {},
+          "3": {},
+          "4": {},
+          "5": {},
+          "6": {},
+          "7": {},
+          "8": {}
         }
       },
       "transform": {
@@ -1136,7 +1080,7 @@
           "x": -240,
           "y": -160
         },
-        "scale": 1.1
+        "scale": 1
       },
       "timeline": {
         "isEditorActive": false,
@@ -1148,26 +1092,16 @@
     "[ILI9488.eez-project]:/userPages/3[flow-state]": {
       "selection": {
         "0": {
-          "0": {
-            "$selected": true
-          },
-          "1": {
-            "$selected": true
-          },
-          "2": {
-            "$selected": true
-          },
-          "3": {
-            "$selected": true
-          },
-          "4": {
-            "$selected": true
-          },
-          "5": {
-            "$selected": true
-          },
+          "0": {},
+          "1": {},
+          "2": {},
+          "3": {},
+          "4": {},
+          "5": {},
           "6": {
-            "$selected": true
+            "0": {
+              "$selected": true
+            }
           }
         }
       },
@@ -1176,7 +1110,79 @@
           "x": -240,
           "y": -160
         },
-        "scale": 1.1
+        "scale": 1
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[\\\\wsl.localhost\\Ubuntu-24.04\\home\\giuug\\F446RE_ILI9488\\EEZ\\ILI9488.eez-project]:/userPages/1[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {},
+          "3": {},
+          "4": {
+            "4": {}
+          },
+          "5": {},
+          "6": {},
+          "7": {},
+          "8": {
+            "0": {
+              "$selected": true
+            }
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -240,
+          "y": -160
+        },
+        "scale": 1
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[EEZ_senza_arc_senza_flow.eez-project]:/userPages/0[flow-state]": {
+      "selection": {},
+      "transform": {
+        "translate": {
+          "x": -240,
+          "y": -160
+        },
+        "scale": 1
+      },
+      "timeline": {
+        "isEditorActive": false,
+        "position": 0,
+        "secondToPx": 200,
+        "scrollLeft": 0
+      }
+    },
+    "[C:\\Users\\matte\\OneDrive\\Desktop\\EEZ_senza_arc_senza_flow.eez-project]:/userPages/0[flow-state]": {
+      "selection": {
+        "0": {
+          "0": {
+            "0": {
+              "$selected": true
+            }
+          }
+        }
+      },
+      "transform": {
+        "translate": {
+          "x": -240,
+          "y": -160
+        },
+        "scale": 1
       },
       "timeline": {
         "isEditorActive": false,
@@ -1201,11 +1207,10 @@
   "lvglPart": "MAIN",
   "lvglState": "DEFAULT",
   "lvglExpandedPropertiesGroup": [
-    "MISCELLANEOUS",
-    "ARC"
+    "MISCELLANEOUS"
   ],
   "showInactiveFlowsInDebugger": true,
   "globalFlowZoom": true,
-  "flowZoom": 1.1,
+  "flowZoom": 1,
   "implementationLanguage": "C"
 }
