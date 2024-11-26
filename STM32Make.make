@@ -84,6 +84,7 @@ Core/Src/stm32f4xx_it.c \
 Core/Src/syscalls.c \
 Core/Src/sysmem.c \
 Core/Src/system_stm32f4xx.c \
+Core/Src/tim.c \
 Core/Src/usart.c \
 Drivers/SC24_ILI9488_DRIVER/Src/ili9488.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c \
@@ -103,10 +104,12 @@ Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_spi.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c \
 Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c \
-EEZ/ui/images.c \
-EEZ/ui/screens.c \
-EEZ/ui/styles.c \
-EEZ/ui/ui.c \
+EEZ/global_vars.c \
+EEZ/screen_loader.c \
+EEZ/src/ui/images.c \
+EEZ/src/ui/screens.c \
+EEZ/src/ui/styles.c \
+EEZ/src/ui/ui.c \
 Lib/LVGL9/log/log.c
 
 
@@ -197,9 +200,7 @@ C_INCLUDES =  \
 -IDrivers/STM32F4xx_HAL_Driver/Inc \
 -IDrivers/STM32F4xx_HAL_Driver/Inc/Legacy \
 -IEEZ \
--IEEZ/ui \
--ILib \
--ILib/LVGL9/ \
+-IEEZ/src/ui \
 -ILib/LVGL9/log \
 -ILib/LVGL9/lvgl
 
@@ -236,6 +237,7 @@ LDSCRIPT = STM32F446RETx_FLASH.ld
 # libraries
 LIBS = -lc -lm -lnosys 
 LIBDIR = \
+-LLib/LVGL9/lvgl/lvgl.mk
 
 
 # Additional LD Flags from config file
@@ -360,14 +362,6 @@ clean:
 # custom makefile rules
 #######################################
 
-
-
-#######################################
-# $(shell pwd)/Lib/LVGL9/lvgl/lvgl.mk
-#######################################
-$(shell pwd)/Lib/LVGL9/lvgl/lvgl.mk: $(BUILD_DIR)/$(TARGET).elf
-	echo "Including LVGL makefile"
-      
 	
 #######################################
 # dependencies

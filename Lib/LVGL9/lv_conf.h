@@ -27,7 +27,7 @@
  *====================*/
 
 /** Color depth: 1 (I1), 8 (L8), 16 (RGB565), 24 (RGB888), 32 (XRGB8888) */
-#define LV_COLOR_DEPTH 16
+#define LV_COLOR_DEPTH  24  
 
 /*=========================
    STDLIB WRAPPER SETTINGS
@@ -157,9 +157,9 @@
      * - gradients use RGB888
      * - bitmaps with transparency may use ARGB8888
      */
-    #define LV_DRAW_SW_SUPPORT_RGB565       1
+    #define LV_DRAW_SW_SUPPORT_RGB565       0
     #define LV_DRAW_SW_SUPPORT_RGB565A8     0
-    #define LV_DRAW_SW_SUPPORT_RGB888       0
+    #define LV_DRAW_SW_SUPPORT_RGB888       1
     #define LV_DRAW_SW_SUPPORT_XRGB8888     0
     #define LV_DRAW_SW_SUPPORT_ARGB8888     0
     #define LV_DRAW_SW_SUPPORT_L8           0

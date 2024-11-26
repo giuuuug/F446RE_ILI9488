@@ -65,41 +65,42 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 void my_flush_cb(lv_display_t *display, const lv_area_t *area, uint8_t *px_map)
 {
-  set_draw_window(area->x1, area->y1, area->x2, area->y2);
-  uint16_t *buf16 = (uint16_t *)px_map;
+    // Inizia a misurare il tempo
+    uint32_t start_time = HAL_GetTick();
 
-  uint32_t width = area->x2 - area->x1 + 1;
-  uint32_t height = area->y2 - area->y1 + 1;
-  uint32_t pixel_count = width * height;
+    // Imposta l'area di disegno
+    set_draw_window(area->x1, area->y1, area->x2, area->y2);
 
-  // Buffer per i dati da inviare, ogni pixel avrà 3 byte (RGB)
-  uint8_t v_buffer[pixel_count * 3];
+    uint32_t width = area->x2 - area->x1 + 1;
+    uint32_t height = area->y2 - area->y1 + 1;
+    uint32_t pixel_count = width * height;
 
-  // Pre-compiliamo i dati nel buffer
-  uint32_t i = 0;
-  for (uint32_t j = 0; j < pixel_count; j++)
-  {
-    uint16_t color = *buf16++;
+    // Imposta il pin DC alto per indicare dati
+    HAL_GPIO_WritePin(DC_PORT, DC_PIN, GPIO_PIN_SET);
 
-    // Estrazione dei componenti RGB
-    uint8_t r = (color >> 8) & 0xF8; // 5 bit rosso
-    uint8_t g = (color >> 3) & 0xFC; // 6 bit verde
-    uint8_t b = (color << 3);        // 5 bit blu
+    // Seleziona il display (CS basso)
+    HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
 
-    v_buffer[i++] = r; // Red
-    v_buffer[i++] = g; // Green
-    v_buffer[i++] = b; // Blue
-  }
+    // Trasmette i dati a 24 bit per pixel
+    HAL_SPI_Transmit_DMA(&hspi2, px_map, pixel_count * 3);
 
-  HAL_GPIO_WritePin(DC_PORT, DC_PIN, GPIO_PIN_SET);
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_RESET);
-  HAL_SPI_Transmit_DMA(&hspi2, v_buffer, pixel_count * 3);
+    // Attende che la trasmissione sia completata
+    while (HAL_SPI_GetState(&hspi2) != HAL_SPI_STATE_READY)
+        ;
 
-  while (HAL_SPI_GetState(&hspi2) != HAL_SPI_STATE_READY)
-    ;
+    // Deseleziona il display (CS alto)
+    HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
 
-  HAL_GPIO_WritePin(CS_PORT, CS_PIN, GPIO_PIN_SET);
-  lv_display_flush_ready(display);
+    // Segnala a LVGL che il flush è completo
+    lv_display_flush_ready(display);
+
+    // Fine misurazione del tempo
+    uint32_t end_time = HAL_GetTick();
+
+    // Calcola e invia il tempo tramite UART
+    char msg[50];
+    sprintf(msg, "Tempo per my_flush_cb: %lu ms\r\n", (end_time - start_time));
+    HAL_UART_Transmit(&huart2, (uint8_t *)msg, strlen(msg), HAL_MAX_DELAY);
 }
 
 void monitor_memory()
@@ -127,9 +128,9 @@ void monitor_memory()
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
 
@@ -234,44 +235,53 @@ int main(void)
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Configure the main internal regulator output voltage
-   */
+  */
   __HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
+  * in the RCC_OscInitTypeDef structure.
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = 4;
-  RCC_OscInitStruct.PLL.PLLN = 84;
+  RCC_OscInitStruct.PLL.PLLN = 180;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
-  RCC_OscInitStruct.PLL.PLLQ = 7;
+  RCC_OscInitStruct.PLL.PLLQ = 2;
+  RCC_OscInitStruct.PLL.PLLR = 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
 
+  /** Activate the Over-Drive mode
+  */
+  if (HAL_PWREx_EnableOverDrive() != HAL_OK)
+  {
+    Error_Handler();
+  }
+
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
   {
     Error_Handler();
   }
@@ -282,9 +292,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -296,14 +306,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
